@@ -60,19 +60,15 @@ function move(){
     //checking for direction the snake is facing
     if(queue[queue.length-1] == "e"){
       queue = ["e"]
-      console.log(queue);
       snakeLocY++;
     }else if(queue[queue.length-1] == "w"){
       queue = ["w"]
-      console.log(queue);
       snakeLocY--;
     }else if(queue[queue.length-1] == "n"){
       queue = ["n"]
-      console.log(queue);
       snakeLocX--;
     }else if(queue[queue.length-1] == "s"){
       queue = ["s"]
-      console.log(queue);
       snakeLocX++;
     }
     //stop if snake reaches board
