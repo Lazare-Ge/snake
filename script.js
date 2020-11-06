@@ -4,13 +4,15 @@ var board = document.querySelector("#board");
 const boardColor = "white";
 const borderColor = "black";
 const snakeColor = "yellow";
-const rows = 10;
-const columns = 10;
+const foodColor = "red";
+const speed = 100;
+const rows = 16;
+const columns = 16;
 const startingPosX = 4;
 const startingPosY = 4;
 // snake is facing North(n), West(w), South(s) or East(e)
 var queue = ["0"];
-var facing = "0"
+var snakeLength = 1;
 var snakeLocX = startingPosX;
 var snakeLocY = startingPosY;
 // <td> (DOM object) representing the head of the snake's current location
@@ -25,7 +27,7 @@ function createBoard(){
     for (var j=0; j<columns; j++){
       var cell = document.createElement("td");
       cell.style.background = boardColor;
-      cell.id ="" + i + "_" + j;
+      cell.id ="loc" + i + "_" + j;
       // uncomment if you want to see indexes of cells.
       // cell.textContent = "(" + i +"," + j + ")";
 
@@ -40,7 +42,7 @@ function createBoard(){
 
 //Generates id for for querySelector based on snake's position
 function idGenerator(snakeLocX,snakeLocY){
-  var id = "#\\3" + snakeLocX +"_" + snakeLocY;
+  var id = "#loc" + snakeLocX +"_" + snakeLocY;
   return id;
 }
 
@@ -54,7 +56,7 @@ function createSnake(){
 //moving
 function move(){
   //moving speed
-  var i = setInterval(frame,100);
+  var i = setInterval(frame,speed);
   //snake moves on next cell
   function frame(){
     //checking for direction the snake is facing
@@ -77,10 +79,28 @@ function move(){
     }else{
       currentLoc.style.background = boardColor;
       currentLoc = document.querySelector(idGenerator(snakeLocX,snakeLocY));
+      if(currentLoc.style.background == foodColor){
+        snakeLength++;
+        console.log(snakeLength);
+        food();
+      }
       currentLoc.style.background = snakeColor;
     }
   }
 }
+// Generate Random food
+function food(){
+  while(true){
+    var foodLocX = Math.floor(Math.random() * (rows-2)) + 1;
+    var foodLocY = Math.floor(Math.random() * (columns-2)) +1;
+    var food = document.querySelector(idGenerator(foodLocX,foodLocY));
+    if(food.style.background == boardColor){
+      food.style.background = foodColor;
+      break;
+    }
+  }
+}
+
 
 //Checks for keypress and changes snake's facing direction
 function checkKey(e) {
@@ -116,5 +136,6 @@ function checkKey(e) {
 
 createBoard();
 createSnake();
+food();
 document.onkeydown = checkKey;
 move();
