@@ -9,6 +9,7 @@ const columns = 10;
 const startingPosX = 4;
 const startingPosY = 4;
 // snake is facing North(n), West(w), South(s) or East(e)
+var queue = ["0"];
 var facing = "0"
 var snakeLocX = startingPosX;
 var snakeLocY = startingPosY;
@@ -57,13 +58,21 @@ function move(){
   //snake moves on next cell
   function frame(){
     //checking for direction the snake is facing
-    if(facing == "e"){
+    if(queue[queue.length-1] == "e"){
+      queue = ["e"]
+      console.log(queue);
       snakeLocY++;
-    }else if(facing == "w"){
+    }else if(queue[queue.length-1] == "w"){
+      queue = ["w"]
+      console.log(queue);
       snakeLocY--;
-    }else if(facing == "n"){
+    }else if(queue[queue.length-1] == "n"){
+      queue = ["n"]
+      console.log(queue);
       snakeLocX--;
-    }else if(facing == "s"){
+    }else if(queue[queue.length-1] == "s"){
+      queue = ["s"]
+      console.log(queue);
       snakeLocX++;
     }
     //stop if snake reaches board
@@ -81,26 +90,31 @@ function move(){
 function checkKey(e) {
 
     e = e || window.event;
-
-    if (e.keyCode == '38') {
-        if (facing != "s"){
-          facing = "n";
-        }
-    }
-    else if (e.keyCode == '40') {
-        if (facing != "n"){
-          facing = "s";
-        }
-    }
-    else if (e.keyCode == '37') {
-        if (facing != "e"){
-          facing = "w";
-        }
-    }
-    else if (e.keyCode == '39') {
-        if (facing != "w"){
-          facing = "e";
-        }
+    var length = queue.length;
+    if(length < 2){
+      if (e.keyCode == '38') {
+          if (queue[length-1] != "s"){
+            queue.push("n");
+          }
+      }
+      // DOWN
+      else if (e.keyCode == '40') {
+          if (queue[length-1] != "n"){
+            queue.push("s");
+          }
+      }
+      // RIGHT
+      else if (e.keyCode == '37') {
+          if (queue[length-1] != "e"){
+            queue.push("w");
+          }
+      }
+      // LEFT
+      else if (e.keyCode == '39') {
+          if (queue[length-1] != "w"){
+            queue.push("e");
+          }
+      }
     }
 }
 
