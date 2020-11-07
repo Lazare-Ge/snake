@@ -11,12 +11,14 @@ const columns = 16;
 const startingPosX = 4;
 const startingPosY = 4;
 // snake is facing North(n), West(w), South(s) or East(e)
+var gameOn = false;
 var queue = ["0"];
 var snakeLength = 1;
 var snakeLocX = startingPosX;
 var snakeLocY = startingPosY;
 // <td> (DOM object) representing the head of the snake's current location
 var currentLoc = null;
+var snakeBody = [[snakeLocX,snakeLocY]];
 
 // Creating Board
 function createBoard(){
@@ -52,6 +54,12 @@ function createSnake(){
   currentLoc.style.background = snakeColor;
 }
 
+function endGame(){
+  if (snakeLocY > columns-2 || snakeLocY < 1 || snakeLocX > rows-2 || snakeLocX < 1){
+    return true;
+  }
+}
+
 
 //moving
 function move(){
@@ -63,28 +71,37 @@ function move(){
     if(queue[queue.length-1] == "e"){
       queue = ["e"]
       snakeLocY++;
+      gameOn = true;
     }else if(queue[queue.length-1] == "w"){
       queue = ["w"]
       snakeLocY--;
+      gameOn = true;
     }else if(queue[queue.length-1] == "n"){
       queue = ["n"]
       snakeLocX--;
+      gameOn = true;
     }else if(queue[queue.length-1] == "s"){
       queue = ["s"]
       snakeLocX++;
+      gameOn = true;
     }
     //stop if snake reaches board
     if (snakeLocY > columns-2 || snakeLocY < 1 || snakeLocX > rows-2 || snakeLocX < 1){
       clearInterval(i);
     }else{
-      currentLoc.style.background = boardColor;
       currentLoc = document.querySelector(idGenerator(snakeLocX,snakeLocY));
       if(currentLoc.style.background == foodColor){
         snakeLength++;
-        console.log(snakeLength);
+        snakeBody.push([snakeLocX,snakeLocY]);
+        console.log(snakeBody);
         food();
       }
       currentLoc.style.background = snakeColor;
+      snakeBody.push([snakeLocX,snakeLocY]);
+      var removedElement = snakeBody.shift();
+      if(gameOn){
+        document.querySelector(idGenerator(removedElement[0],removedElement[1])).style.background = boardColor;
+      }
     }
   }
 }
@@ -105,6 +122,7 @@ function food(){
 //Checks for keypress and changes snake's facing direction
 function checkKey(e) {
 
+    gameOn = true;
     e = e || window.event;
     var length = queue.length;
     if(length < 2){
