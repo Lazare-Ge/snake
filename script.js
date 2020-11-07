@@ -19,6 +19,9 @@ var snakeLocY = startingPosY;
 // <td> (DOM object) representing the head of the snake's current location
 var currentLoc = null;
 var snakeBody = [[snakeLocX,snakeLocY]];
+var score = 0;
+var scoreIncrement =50;
+var gameOverMessage = "GAME OVER!"
 
 // Creating Board
 function createBoard(){
@@ -86,9 +89,12 @@ function move(){
     currentLoc = document.querySelector(idGenerator(snakeLocX,snakeLocY));
     if (currentLoc.style.background == borderColor || (gameOn == true && currentLoc.style.background == snakeColor)){
       clearInterval(i);
+      document.querySelector("#over").textContent = gameOverMessage;
     }else{
       if(currentLoc.style.background == foodColor){
         snakeLength++;
+        score += scoreIncrement;
+        document.querySelector("#score").textContent = score;
         snakeBody.push([snakeLocX,snakeLocY]);
         food();
       }
@@ -121,6 +127,9 @@ function checkKey(e) {
     gameOn = true;
     e = e || window.event;
     var length = queue.length;
+    if (e.keyCode == '32') {
+        location.reload();
+    }
     if(length < 2){
       if (e.keyCode == '38') {
           if (queue[length-1] != "s"){

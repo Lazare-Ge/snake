@@ -2,11 +2,17 @@ table{
   width: 500px;
   height: 500px;
   margin: auto;
-  margin-top: 150px;
   border-collapse: collapse;
 }
 td{
   border: none;
   text-align: center;
   margin: 0px;
+}
+h2{
+  text-align: center;
+}
+h1{
+  color: red;
+  text-align: center;
 }
