@@ -30,9 +30,6 @@ function createBoard(){
       var cell = document.createElement("td");
       cell.style.background = boardColor;
       cell.id ="loc" + i + "_" + j;
-      // uncomment if you want to see indexes of cells.
-      // cell.textContent = "(" + i +"," + j + ")";
-
       //creating border
       if(i == 0 || i == rows-1 || j == 0 || j == columns-1){
         cell.style.background = borderColor;
@@ -86,14 +83,13 @@ function move(){
       gameOn = true;
     }
     //stop if snake reaches board
-    if (snakeLocY > columns-2 || snakeLocY < 1 || snakeLocX > rows-2 || snakeLocX < 1){
+    currentLoc = document.querySelector(idGenerator(snakeLocX,snakeLocY));
+    if (currentLoc.style.background == borderColor || (gameOn == true && currentLoc.style.background == snakeColor)){
       clearInterval(i);
     }else{
-      currentLoc = document.querySelector(idGenerator(snakeLocX,snakeLocY));
       if(currentLoc.style.background == foodColor){
         snakeLength++;
         snakeBody.push([snakeLocX,snakeLocY]);
-        console.log(snakeBody);
         food();
       }
       currentLoc.style.background = snakeColor;
