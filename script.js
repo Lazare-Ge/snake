@@ -124,7 +124,6 @@ function food(){
 //Checks for keypress and changes snake's facing direction
 function checkKey(e) {
 
-    gameOn = true;
     e = e || window.event;
     var length = queue.length;
     if (e.keyCode == '32') {
@@ -134,24 +133,28 @@ function checkKey(e) {
       if (e.keyCode == '38') {
           if (queue[length-1] != "s"){
             queue.push("n");
+            gameOn = true;
           }
       }
       // DOWN
       else if (e.keyCode == '40') {
           if (queue[length-1] != "n"){
             queue.push("s");
+            gameOn = true;
           }
       }
       // RIGHT
       else if (e.keyCode == '37') {
           if (queue[length-1] != "e"){
             queue.push("w");
+            gameOn = true;
           }
       }
       // LEFT
       else if (e.keyCode == '39') {
           if (queue[length-1] != "w"){
             queue.push("e");
+            gameOn = true;
           }
       }
     }
